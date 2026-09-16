@@ -65,6 +65,16 @@ vcdFile = 'logic-capture.vcd'
 
 You can then open the VCD file with [Surfer](https://marketplace.visualstudio.com/items?itemName=surfer-project.surfer), [PulseView or GTKWave](../guides/logic-analyzer#viewing-the-data-in-pulseview) to analyze the captured signals.
 
+### GDB debugging
+
+To debug the simulated firmware with GDB, add a GDB server port to the `[wokwi]` section of your wokwi.toml file:
+
+```toml
+gdbServerPort = 3333
+```
+
+Both [Wokwi for VS Code](debugging) and the [Wokwi CLI](../wokwi-ci/cli-usage#debugging-with-gdb) read this setting and listen for GDB on that port.
+
 ### Serial port forwarding
 
 Wokwi for VS Code allows you to connect to the serial port of the simulated microcontroller using an RFC2217 TCP server. To enable this feature, add the following configuration to your wokwi.toml file, inside the `[wokwi]` section:

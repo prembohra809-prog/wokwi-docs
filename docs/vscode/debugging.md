@@ -5,7 +5,7 @@ description: Configure and use the VS Code debugger to debug code running in the
 keywords: [debugger, GDB, VS Code, ESP32, ESP-IDF, AVR, PlatformIO, launch.json,  Visual Studio Code]
 ---
 
-You can debug your code while it is running in the simulation using the VS Code debugger. To set up the debugger, follow these steps:
+You can debug your code while it is running in the simulation using the VS Code debugger. To set up the debugger, follow these steps. To attach GDB from the command line instead, see [Debugging with GDB](../wokwi-ci/cli-usage#debugging-with-gdb) in the Wokwi CLI docs; both use the same `gdbServerPort` setting.
 
 ## Configure Wokwi
 

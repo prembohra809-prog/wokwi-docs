@@ -36,6 +36,7 @@ You can use the following options to customize the CLI behavior:
 ### Configuration
 
 - `--elf <path>` - ELF file to simulate (default: read from wokwi.toml)
+- `--gdb-server-port <port>`, `-g` - Listen for GDB on the given port and start the simulation paused (default: read from wokwi.toml, see [Debugging with GDB](#debugging-with-gdb))
 - `--diagram-file <path>` - Path to the diagram.json file, relative to project root (default: diagram.json)
 - `--interactive` - Redirect stdin to the simulated serial port
 - `--serial-log-file <path>` - Save the serial monitor output to the given file
@@ -57,6 +58,31 @@ You can use the following options to customize the CLI behavior:
 - `--help`, `-h` - Prints help information and exit
 - `--quiet`, `-q` - Quiet: do not print version or status messages
 
+
+## Debugging with GDB
+
+You can attach GDB to the simulated firmware from the command line. Add `gdbServerPort` to the `[wokwi]` section of your [wokwi.toml](../vscode/project-config) file:
+
+```toml
+[wokwi]
+version = 1
+firmware = 'build/hello_world.bin'
+elf = 'build/hello_world.elf'
+gdbServerPort = 3333
+```
+
+When `gdbServerPort` is set, the CLI listens for GDB on that port and starts the simulation paused, so you can set breakpoints before the firmware runs. For projects without a `wokwi.toml`, pass `--gdb-server-port <port>` (short: `-g`) instead; the flag also overrides the value from `wokwi.toml`. Connect with the GDB that matches your target, for example:
+
+```bash
+wokwi-cli . --timeout 0
+xtensa-esp32-elf-gdb build/hello_world.elf -ex 'target remote localhost:3333'
+```
+
+The `--timeout 0` flag disables the default 30 second simulation timeout, which would otherwise end an interactive debugging session. The same `gdbServerPort` setting also drives the [VS Code debugger](../vscode/debugging), so a project configured for one works with the other.
+
+:::info
+Debugging requires a simulation server that supports it. The Wokwi cloud does; if you run a self-hosted server that doesn't, the CLI prints a warning and runs the simulation without the debugger.
+:::
 
 ## Linting Diagrams
 
